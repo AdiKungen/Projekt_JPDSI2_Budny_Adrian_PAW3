@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/main-template.xhtml">
+
+    <ui:define name="title">Booker - Koszyk</ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{messageBB.preRenderMsg()}" />
+        </f:metadata>
+
+        <h:form id="form-table" style="margin-bottom:1em;">
+            <p:dataTable id="p-table" value="#{rentalBB.list}" var="u" emptyMessage="Twój koszyk jest pusty">
+            
+                <f:facet name="header">
+                    Twój koszyk wypożyczeń
+                </f:facet>
+
+                <p:column headerText="Tytuł">
+                    #{u.title}
+                </p:column>
+
+                <p:column headerText="Autor">
+                    #{u.author}
+                </p:column>
+                
+                <p:column headerText="Cena za dzień">
+                    #{u.price} zł
+                </p:column>
+                
+				<p:column headerText="Akcje" style="text-align: center; width: 120px;">
+				    <p:commandButton value="Usuń" 
+				                     action="#{rentalBB.removeFromCart(u.idbook)}" 
+				                     icon="pi pi-trash" 
+				                     update="form-table" />
+				</p:column>
+            </p:dataTable>
+            
+            <p:panel rendered="#{rentalBB.cartExists() != null}" header="Podsumowanie zamówienia" style="margin-top: 1.5em;">
+                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                    <p:outputLabel for="rentTime" value="Czas wypożyczenia (dni):" style="font-weight: bold;"/>
+                    <p:inputNumber id="rentTime" value="#{rentalBB.iloscDni}" decimalPlaces="0" required="true" 
+                                   requiredMessage="Podaj liczbę dni" validatorMessage="Wypożyczenie musi trwać od 1 do 90 dni">
+                        <f:validateLongRange minimum="1" maximum="90"/>
+                        <p:ajax event="change" update="wynajecie" />
+                    </p:inputNumber>
+                    
+                    <p:outputLabel value="Łączny koszt:" style="font-weight: bold; margin-left: 1rem;"/>
+                    <h:outputText id="wynajecie" value="#{rentalBB.obliczWynajecie()} zł" style="font-size: 1.2rem; font-weight: bold; color: #28a745;"/>
+                    
+                    <p:commandButton value="Złóż zamówienie" action="#{rentalBB.orderCart()}" icon="pi pi-check" update="form-table" style="margin-left: auto;" />
+                </div>
+            </p:panel>
+            
+            <p:messages id="msgsP" showDetail="false" closable="true" style="margin-bottom: 1rem;" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>

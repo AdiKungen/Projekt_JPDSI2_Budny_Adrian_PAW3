@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/main-template.xhtml">
+
+    <ui:define name="title">Booker - Rejestracja</ui:define>
+
+    <ui:define name="content">
+        <div style="display: flex; justify-content: center; padding-top: 2rem;">
+            <p:panel header="Rejestracja nowego konta" style="width: 100%; max-width: 480px;">
+                <h:form>
+                    <h:panelGrid id="grid" columns="3" cellpadding="6" style="width: 100%;">
+                        <p:outputLabel for="login" value="Login:" />
+                        <p:inputText id="login" value="#{signInBB.login}" required="true" requiredMessage="Wpisz login" validatorMessage="Długość loginu: 3-30 znaków">
+                            <f:validateLength minimum="3" maximum="30" />
+                        </p:inputText>
+                        <p:message for="login" display="icon"/>
+                    
+                        <p:outputLabel for="password" value="Hasło:" />
+                        <p:password id="password" value="#{signInBB.password}" required="true" requiredMessage="Wpisz hasło" validatorMessage="Długość hasła: 3-30 znaków">
+                            <f:validateLength minimum="3" maximum="30" />
+                        </p:password>
+                        <p:message for="password" display="icon"/>
+                        
+                        <p:outputLabel for="passwordR" value="Powtórz hasło:" />
+                        <p:password id="passwordR" value="#{signInBB.passwordR}" required="true" requiredMessage="Powtórz hasło"/>
+                        <p:message for="passwordR" display="icon"/>
+                    </h:panelGrid>
+                    
+                    <p:messages id="msgs" showDetail="false" closable="true" style="margin-bottom: 1rem;" />
+                
+                    <div style="text-align: right; margin-top: 1.5rem;">
+                        <p:commandButton value="Zarejestruj się" action="#{signInBB.signin()}" ajax="false" icon="pi pi-user-plus" style="width: 100%;"/>
+                    </div>
+                </h:form>
+            </p:panel>
+        </div>
+    </ui:define>
+
+</ui:composition>

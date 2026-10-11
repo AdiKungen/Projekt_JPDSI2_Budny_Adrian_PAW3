@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/main-template.xhtml">
+
+    <ui:define name="title">Booker - Zarządzanie użytkownikami</ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{messageBB.preRenderMsg()}" />
+        </f:metadata>
+
+        <p:panel header="Opcje filtrowania" toggleable="true" collapsed="true" style="margin-bottom: 1em;">
+            <h:form>
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:outputLabel value="Login:" />
+                    <p:inputText value="#{userListBB.login}" />
+                    <p:commandButton value="Filtruj" update="form-table" icon="pi pi-search" />
+                </h:panelGrid>
+            </h:form>
+        </p:panel>
+        
+        <h:form id="form-table" style="margin-bottom:1em;">
+            <p:dataTable value="#{userListBB.list}" var="u" emptyMessage="Brak użytkowników do wyświetlenia">
+                <f:facet name="header">
+                    Lista zarejestrowanych kont
+                </f:facet>
+                
+                <p:column headerText="ID" style="width: 60px; text-align: center;">
+                    #{u.iduser}
+                </p:column>
+
+                <p:column headerText="Login">
+                    #{u.login}
+                </p:column>
+
+                <p:column headerText="Hasło" style="width: 120px;">
+                    <span style="letter-spacing: 2px;">••••••••</span>
+                </p:column>
+                
+                <p:column headerText="Data utworzenia">
+                    <h:outputText value="#{u.whencreated}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Ostatnia modyfikacja">
+                    <h:outputText value="#{u.whenlastmodified}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Role">
+                    <ui:repeat var="item" value="#{roleBB.whatRoles(u)}">
+                        <span style="display: inline-block; background-color: var(--surface-e, #2a2a2a); color: var(--text-color, #ffffff); border: 1px solid var(--surface-border, #444444); border-radius: 4px; padding: 2px 8px; margin: 2px; font-size: 0.85rem;">
+                            #{item.name}
+                        </span>
+                    </ui:repeat>
+                </p:column>
+                
+                <p:column headerText="Akcje" style="text-align: center; width: 180px;">
+                    <p:commandButton rendered="#{u.iduser != sessionScope.user.iduser}" value="Edytuj" action="#{navigationBB.redirectToEdit(u)}" icon="pi pi-user-edit" style="margin-right: 0.4rem;"/>
+                    <p:commandButton rendered="#{u.iduser != sessionScope.user.iduser}" value="Usuń" action="#{userEditBB.deleteUser(u)}" update="@form" icon="pi pi-trash" styleClass="ui-button-danger"/>
+                </p:column>
+            </p:dataTable>
+
+            <div style="margin-top: 1rem;">
+                <p:commandButton value="Dodaj nowego użytkownika" action="#{navigationBB.redirectToEdit(null)}" icon="pi pi-plus" />
+            </div>
+            
+            <p:messages id="msgs" showDetail="false" closable="true" style="margin-bottom: 1rem;" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/main-template.xhtml">
+
+    <ui:define name="title">Booker - Katalog książek</ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{messageBB.preRenderMsg()}" />
+        </f:metadata>
+
+        <h:form id="form-table" style="margin-bottom:1em;">
+            <p:dataTable id="booksTable" 
+                         value="#{bookBB.lazyModel}" 
+                         var="u" 
+                         lazy="true" 
+                         paginator="true" 
+                         rows="5"
+                         saveState="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" 
+                         currentPageReportTemplate="{startRecord}-{endRecord} z {totalRecords}" 
+                         emptyMessage="Brak książek do wyświetlenia">
+            
+                <f:facet name="header">
+                    Lista książek
+                </f:facet>
+
+                <p:column headerText="Tytuł">
+                    #{u.title}
+                </p:column>
+
+                <p:column headerText="Autor">
+                    #{u.author}
+                </p:column>
+                
+                <p:column headerText="Data wydania">
+                    <h:outputText value="#{u.whenreleased}">
+                        <f:convertDateTime pattern="dd.MM.yyyy" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Gatunek">
+                    #{u.genre.name}
+                </p:column>
+                
+                <p:column headerText="Cena">
+                    #{u.price} zł / dzień
+                </p:column>
+                
+                <p:column rendered="#{roleBB.isUser(sessionScope.user)}" headerText="Szczegóły" style="width: 140px; text-align: center;">
+                    <p:commandButton value="Wyświetl więcej" action="#{navigationBB.redirectToDetails()}" icon="pi pi-info-circle">
+                        <f:param name="bookId" value="#{u.idbook}" />
+                    </p:commandButton>
+                </p:column>
+                
+                <p:column rendered="#{roleBB.isUser(sessionScope.user)}" headerText="Stan" style="width: 190px; text-align: center;">
+                    <p:commandButton rendered="#{rentalBB.isAvailable(u.idbook)}" 
+                                     value="Dodaj do koszyka" 
+                                     action="#{rentalBB.addToCart(u.idbook)}" 
+                                     icon="pi pi-shopping-cart" 
+                                     update="form-table" />
+
+                    <h:outputText rendered="#{rentalBB.isInCart(u.idbook)}" value="W koszyku" style="color: #28a745; font-weight: bold;"/>
+                    <h:outputText rendered="#{rentalBB.isAwaiting(u.idbook)}" value="Oczekuje na zatwierdzenie" style="color: #ffc107; font-weight: bold;"/>
+                    
+                    <h:panelGroup rendered="#{rentalBB.isRented(u.idbook) != null}">
+                        <h:outputText value="Wypożyczona do: "/><br/>
+                        <h:outputText value="#{rentalBB.isRented(u.idbook)}" style="font-weight: bold;">
+                            <f:convertDateTime pattern="HH:mm dd.MM.yyyy" />
+                        </h:outputText>
+                    </h:panelGroup>
+                    
+                    <h:outputText rendered="#{!rentalBB.isInCart(u.idbook) and !rentalBB.isAwaiting(u.idbook) and rentalBB.isRented(u.idbook) == null and !rentalBB.isAvailable(u.idbook)}" 
+                                  value="Niedostępna" style="color: #dc3545;" />
+                </p:column>
+            </p:dataTable>
+            
+            <p:messages id="msgsP" showDetail="false" closable="true" style="margin-bottom: 1rem;" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>

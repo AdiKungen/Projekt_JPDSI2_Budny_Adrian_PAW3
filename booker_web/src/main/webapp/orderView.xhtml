@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/main-template.xhtml">
+
+    <ui:define name="title">Booker - Zamówienia</ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{messageBB.preRenderMsg()}" />
+            <f:event type="preRenderView" listener="#{rentalBB.checkAndRefreshRental()}" />
+        </f:metadata>
+
+        <h:form id="form-table1" style="margin-bottom:1em;">
+            <p:panel header="Oczekujące zamówienia" style="margin-bottom: 1em;">
+                <ui:repeat value="#{rentalBB.orders}" var="o">
+                    <p:commandButton value="Zamówienie nr #{o.idrental}" action="#{rentalBB.showOrderTable(o.idrental)}" update="form-table" style="margin-right: 0.5rem; margin-bottom: 0.5rem;"/>
+                </ui:repeat>
+                <h:outputText rendered="#{empty rentalBB.orders}" value="Brak oczekujących zamówień do zatwierdzenia" />
+            </p:panel>
+        </h:form>
+        
+        <h:form id="form-table" style="margin-bottom:1em;">
+            <p:dataTable rendered="#{not empty sessionScope.idrental and not empty sessionScope.objrental.user}" id="tabelaZamowien" value="#{rentalBB.getOrderList(sessionScope.idrental)}" var="u" emptyMessage="Brak pozycji w tym zamówieniu">
+                <f:facet name="header">
+                    Zamówienie nr #{sessionScope.idrental} (Użytkownik: #{sessionScope.objrental.user.login})
+                </f:facet>
+
+                <p:column headerText="Tytuł">
+                    #{u.book.title}
+                </p:column>
+
+                <p:column headerText="Autor">
+                    #{u.book.author}
+                </p:column>
+                
+                <p:column headerText="Cena za dzień">
+                    #{u.book.price} zł
+                </p:column>
+            </p:dataTable>
+
+            <p:panel id="checkboxPanel" rendered="#{not empty sessionScope.objrental}" style="margin-top: 1em; margin-bottom: 1em;">
+                <h:outputText value="Ilość dni: #{sessionScope.objrental.duration} | " />
+                <h:outputText value="Łączny koszt: #{sessionScope.objrental.cost} zł" style="font-weight: bold; margin-right: 1.5rem;" />
+                <p:selectBooleanCheckbox value="#{rentalBB.chckbx}" itemLabel="Uiszczono zapłatę?" style="margin-right: 1rem;">
+                    <p:ajax event="change" update="form-table" />
+                </p:selectBooleanCheckbox>
+                <p:commandButton id="buttonConfirm" value="Zatwierdź zamówienie" action="#{rentalBB.confirmOrder(sessionScope.objrental)}" update="form-table form-table1 msgs" icon="pi pi-check"/>
+            </p:panel>
+            <p:messages id="msgs" showDetail="false" closable="true" style="margin-bottom: 1rem;" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>

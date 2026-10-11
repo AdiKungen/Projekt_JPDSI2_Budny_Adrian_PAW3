@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <meta charset="utf-8" />
+    <title><ui:insert name="title">Booker - Wypożyczalnia książek</ui:insert></title>
+    
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: var(--surface-ground, #121212);
+            color: var(--text-color, #ffffff);
+        }
+        .site-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: transparent;
+        }
+        .site-content {
+            flex: 1 0 auto;
+            padding: 1rem 2rem;
+        }
+        .site-footer {
+            flex-shrink: 0;
+            background-color: var(--surface-card, #1e1e1e);
+            border-top: 1px solid var(--surface-border, #333333);
+            padding: 1.5rem 2rem;
+            color: var(--text-color, #ffffff);
+        }
+        .noBorderPanels .ui-panel {
+            border: none !important;
+            background: transparent !important;
+        }
+        .footer-disclaimer {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px dashed var(--surface-border, #444444);
+            font-size: 0.85rem;
+            color: var(--text-color-secondary, #a0a0a0);
+        }
+        .credits-link {
+            font-size: 0.85rem;
+            color: var(--primary-color, #fbc02d);
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="site-wrapper">
+        
+        <header>
+            <p:panel header="Menu nawigacji" style="margin-bottom: 0.5rem; text-align: center;">
+                <h:form id="navForm">
+                    <p:commandButton value="Strona główna" action="#{navigationBB.redirectToList()}" style="margin-right: 0.5rem;"/>
+                    <p:commandButton rendered="#{sessionScope.user == null}" value="Zaloguj" action="#{navigationBB.redirectToLogin()}" style="margin-right: 0.5rem;"/>
+                    <p:commandButton rendered="#{sessionScope.user == null}" value="Zarejestruj" action="#{navigationBB.redirectToSignIn()}" style="margin-right: 0.5rem;"/>
+                    <p:commandButton rendered="#{roleBB.isUser(sessionScope.user)}" value="Koszyk" action="#{navigationBB.redirectToCart()}" style="margin-right: 0.5rem;"/>
+                    <p:commandButton rendered="#{roleBB.isWorker(sessionScope.user)}" value="Zamówienia" action="#{navigationBB.redirectToOrder()}" style="margin-right: 0.5rem;"/>
+                    <p:commandButton rendered="#{roleBB.isWorker(sessionScope.user)}" value="Zwroty" action="#{navigationBB.redirectToReturn()}" style="margin-right: 0.5rem;"/>
+                    <p:commandButton rendered="#{roleBB.isAdmin(sessionScope.user)}" value="Panel Administratora" action="#{navigationBB.redirectToUser()}" style="margin-right: 0.5rem;"/>
+                    <p:commandButton rendered="#{sessionScope.user != null}" value="Wyloguj | #{sessionScope.user.login}" action="#{loginBB.logout()}"/>
+                </h:form>
+            </p:panel>
+        </header>
+
+        <main class="site-content">
+            <ui:insert name="content">
+                
+            </ui:insert>
+        </main>
+
+        <footer class="site-footer">
+            <p:panelGrid columns="2" styleClass="noBorderPanels" style="width: 100%;">
+                <p:panel style="text-align: left;">
+                    <p:outputLabel value="Nazwa spółki: " style="font-weight: bold;" />
+                    <br />
+                    <p:outputLabel value="Wypożyczalnia książek - Booker sp. z o.o." />
+                </p:panel>
+                <p:panel style="text-align: right;">
+                    <p:outputLabel value="Adres: " style="font-weight: bold;" />
+                    <p:outputLabel value="Będzińska 39, 41-205 Sosnowiec" /><br />
+                    <p:outputLabel value="E-mail: " style="font-weight: bold;" />
+                    <p:outputLabel value="booker@wypozyczalnia.com | " />
+                    <p:outputLabel value="Telefon: " style="font-weight: bold;" />
+                    <p:outputLabel value="+48 123 456 789" />
+                </p:panel>
+            </p:panelGrid>
+
+			<h:form id="footerForm">
+			    <div class="footer-disclaimer" style="display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; text-align: left;">
+			        <div style="flex: 1; line-height: 1.4;">
+			            <span>
+			                Disclaimer: This website was built solely for educational and portfolio demonstration purposes. It does not provide commercial services and is not affiliated with, sponsored by, or connected to any real-world entities, websites, or organizations using the name "Booker" or any variation thereof.
+			            </span>
+			            <br />
+			            <span>
+			                All book titles, author names, descriptions, etc. are fictional test data (mock data) and are not intended to represent or reference real-world publications or individuals. Any resemblance is entirely coincidental.
+			            </span>
+			        </div>
+			
+			        <div style="flex-shrink: 0; white-space: nowrap;">
+			            <p:commandLink value="[Podziękowania / Credits]" 
+			                           onclick="PF('creditsDialog').show(); return false;" 
+			                           type="button" 
+			                           styleClass="credits-link" 
+			                           style="margin-left: 0; font-weight: bold;" />
+			        </div>
+			    </div>
+			</h:form>
+        </footer>
+
+    </div>
+
+    <p:dialog header="Podziękowania / Credits" widgetVar="creditsDialog" modal="true" width="550" responsive="true" resizable="false">
+        <h:form id="dialogForm">
+            <div style="line-height: 1.6; font-size: 0.95rem;">
+            	<p><strong>Komponenty interfejsu UI:</strong> biblioteka <a href="https://www.primefaces.org/" target="_blank">PrimeFaces</a> udostępniona na licencji <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License 2.0</a>.</p>
+            	<p><strong>Serwer aplikacji:</strong> środowisko <a href="https://www.wildfly.org/" target="_blank">WildFly</a> udostępnione na licencji <a href="https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html" target="_blank">LGPL v2.1</a>.</p>
+            	<p><strong>Zestaw ikon interfejsu:</strong> ikony <a href="https://github.com/primefaces/primeicons" target="_blank">PrimeIcons</a> autorstwa zespołu PrimeFaces, udostępnione na licencji <a href="https://opensource.org/licenses/MIT" target="_blank">MIT</a>.</p>
+            	<p><strong>Okładki książek (Materiały demonstracyjne):</strong> grafika oraz zdjęcia pobrane z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a> i wykorzystane zgodnie z <a href="https://unsplash.com/license" target="_blank">Unsplash License</a>:</p>
+            	<ul>
+            		<li><strong>Cienie Zapomnianych Gór:</strong> zdjęcie autorstwa <a href="https://unsplash.com/@jeremybishop" target="_blank">Jeremy Bishop</a> z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a>.</li>
+	            	<li><strong>Milczenie Północy:</strong> zdjęcie autorstwa <a href="https://unsplash.com/@jocelynwong" target="_blank">Jocelyn Wong</a> z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a>.</li>
+	            	<li><strong>Stacja Orbitalna Orion:</strong> zdjęcie autorstwa <a href="https://unsplash.com/@lwdzl" target="_blank">Jack Dong</a> z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a>.</li>
+	            	<li><strong>Jesień w Dolinie Róż:</strong> zdjęcie autorstwa <a href="https://unsplash.com/@amirjaalili" target="_blank">Amir Jalili</a> z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a>.</li>
+	            	<li><strong>Krypta Dawnych Mistrzów:</strong> zdjęcie autorstwa <a href="https://unsplash.com/@gregwillson" target="_blank">Greg Willson</a> z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a>.</li>
+	            	<li><strong>Kroniki Zaginionego Miasta:</strong> zdjęcie autorstwa <a href="https://unsplash.com/@joshuakettle" target="_blank">Joshua Kettle</a> z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a>.</li>
+	            	<li><strong>Przełęcz Ciemności:</strong> zdjęcie autorstwa <a href="https://unsplash.com/@lastoops" target="_blank">Nik Iurev</a> z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a>.</li>
+	            	<li><strong>Kod Nowego Świata:</strong> grafika autorstwa <a href="https://unsplash.com/@cashmacanaya" target="_blank">Cash Macanaya</a> z serwisu <a href="https://unsplash.com/" target="_blank">Unsplash</a>.</li>
+            	</ul>
+            </div>
+            <div style="text-align: right; margin-top: 1rem;">
+                <p:commandButton value="Zamknij" type="button" onclick="PF('creditsDialog').hide();" icon="pi pi-times" />
+            </div>
+        </h:form>
+    </p:dialog>
+
+</h:body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/main-template.xhtml">
+
+    <ui:define name="title">Booker - Szczegóły książki</ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{messageBB.preRenderMsg()}" />
+        </f:metadata>
+
+        <p:panel header="Szczegóły pozycji" style="max-width: 800px; margin: 0 auto;">
+            <ui:repeat value="#{bookBB.getSingleBook(sessionScope.bookId)}" var="u">
+                <div style="display: flex; gap: 2rem; align-items: flex-start; padding: 1rem;">
+                    <div>
+                        <p:graphicImage name="images/#{u.cover}" alt="Okładka: #{u.title}" width="150px" height="225px" style="border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);"/>
+                    </div>
+                    <div style="line-height: 1.8;">
+                        <h2 style="margin-top: 0;">#{u.title}</h2>
+                        <p><strong>Autor:</strong> #{u.author}</p>
+                        <p><strong>Gatunek:</strong> #{u.genre.name}</p>
+                        <p><strong>Opis:</strong> #{u.description}</p>
+                        <p><strong>Data wydania: </strong> 
+                            <h:outputText value="#{u.whenreleased}">
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </h:outputText>
+                        </p>
+                        <p><strong>Cena:</strong> #{u.price} zł / dzień</p>
+                        
+                        <p:commandButton value="Wróć" 
+						                 type="button" 
+						                 onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'bookListView.xhtml'; }" 
+						                 icon="pi pi-arrow-left" 
+						                 style="margin-top: 1rem;" />
+                    </div>
+                </div>
+            </ui:repeat>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

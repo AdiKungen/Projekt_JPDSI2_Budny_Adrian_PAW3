@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/main-template.xhtml">
+
+    <ui:define name="title">Booker - Zwroty</ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{messageBB.preRenderMsg()}" />
+            <f:event type="preRenderView" listener="#{rentalBB.checkAndRefreshRental()}" />
+        </f:metadata>
+        
+        <h:form id="form-table1" style="margin-bottom:1em;">
+            <p:panel header="Zwroty zamówień w toku" style="margin-bottom: 1em;">
+                <ui:repeat value="#{rentalBB.returns}" var="o">
+                    <p:commandButton value="Zwrot zamówienia nr #{o.idrental}" action="#{rentalBB.showReturnTable(o.idrental)}" update="form-table" style="margin-right: 0.5rem; margin-bottom: 0.5rem;"/>
+                </ui:repeat>
+                <h:outputText rendered="#{empty rentalBB.returns}" value="Brak oczekujących zwrotów" />
+            </p:panel>
+        </h:form>
+        
+        <h:form id="form-table" style="margin-bottom:1em;">
+            <p:dataTable rendered="#{not empty sessionScope.idreturn and not empty sessionScope.objreturn.user}" id="tabelaZamowien" value="#{rentalBB.getReturnList(sessionScope.idreturn)}" var="u">
+                <f:facet name="header">
+                    Szczegóły zwrotu dla zamówienia nr #{sessionScope.idreturn} (Użytkownik: #{sessionScope.objreturn.user.login})
+                </f:facet>
+
+                <p:column headerText="Tytuł">
+                    #{u.book.title}
+                </p:column>
+
+                <p:column headerText="Autor">
+                    #{u.book.author}
+                </p:column>
+                
+                <p:column headerText="Podgląd" style="width: 120px; text-align: center;">
+                    <p:commandButton value="Szczegóły" action="#{navigationBB.redirectToDetails()}" icon="pi pi-search">
+                        <f:param name="bookId" value="#{u.book.idbook}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:panel id="checkboxPanel" rendered="#{not empty sessionScope.objreturn and rentalBB.howManyDaysLate(sessionScope.objreturn) == 0}" style="margin-top: 1em;">
+                <p:outputLabel value="Termin zwrotu: " style="font-weight: bold;" />
+                <h:outputText value="#{sessionScope.objreturn.whenends}">
+                    <f:convertDateTime pattern="HH:mm:ss dd.MM.yyyy" />
+                </h:outputText>
+                <span style="color: #28a745; font-weight: bold; margin-left: 1rem;">Zwrot terminowy (brak dopłaty)</span>
+                <p:commandButton id="buttonConfirm" value="Zatwierdź zwrot" action="#{rentalBB.confirmReturn(sessionScope.objreturn, 0)}" update="form-table form-table1 msgs" style="margin-left: 1.5rem;" icon="pi pi-check" />
+                <p:messages id="msgs" showDetail="false" closable="true" style="margin-bottom: 1rem;" />
+            </p:panel>
+
+            <p:panel id="checkboxPanelS" rendered="#{not empty sessionScope.objreturn and rentalBB.howManyDaysLate(sessionScope.objreturn) != 0}" style="margin-top: 1em;">
+                <p:outputLabel value="Termin zwrotu minął: " style="font-weight: bold;" />
+                <h:outputText value="#{sessionScope.objreturn.whenends}">
+                    <f:convertDateTime pattern="HH:mm:ss dd.MM.yyyy" />
+                </h:outputText>
+                <span style="color: #dc3545; font-weight: bold; margin-left: 1rem;">
+				    Spóźnienie: #{rentalBB.howManyDaysLate(sessionScope.objreturn)} #{rentalBB.howManyDaysLate(sessionScope.objreturn) == 1 ? 'dzień' : 'dni'}
+				</span>
+                
+                <div style="margin-top: 1rem;">
+                    <p:selectBooleanCheckbox value="#{rentalBB.chckbxR}" itemLabel="Pobrano opłatę karną w kwocie #{rentalBB.howManyDaysLate(sessionScope.objreturn) * sessionScope.objreturn.cost * 2} zł" />
+                    <p:commandButton id="buttonConfirmS" value="Potwierdź rozliczenie i zwrot" 
+                                     action="#{rentalBB.confirmReturn(sessionScope.objreturn, rentalBB.howManyDaysLate(sessionScope.objreturn) * sessionScope.objreturn.cost * 2)}" 
+                                     update="form-table form-table1 msgsS" icon="pi pi-check" style="margin-left: 1.5rem;" />
+                </div>
+            </p:panel>
+            <p:messages id="msgsS" showDetail="false" closable="true" style="margin-bottom: 1rem;" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>
