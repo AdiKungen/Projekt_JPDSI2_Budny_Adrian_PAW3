@@ -8,9 +8,6 @@ target/
 *.jar
 !booker_web/src/main/webapp/WEB-INF/lib/*.jar
 
-.project
-.classpath
-.settings/
 .metadata/
 .jsdtscope
 
