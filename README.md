@@ -33,11 +33,55 @@ Interfejs użytkownika oparto na standardzie **Jakarta Faces** (JSF) z bibliotek
 
 ## Zrzuty ekranu
 
+<p align="center">
+  <img src="docs/screenshots/catalog-user.png" alt="Katalog książek">
+  <br>
+  <em>Rysunek 1: Katalog książek z perspektywy zalogowanego użytkownika – stronicowanie, stan dostępności oraz dynamiczne dodawanie pozycji do koszyka.</em>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="docs/screenshots/cart-summary.png" alt="Koszyk wypożyczeń">
+  <br>
+  <em>Rysunek 2: Podsumowanie koszyka wypożyczeń - wybór czasu trwania najmu, dynamiczne przeliczanie łącznego kosztu oraz finalizacja zamówienia.</em>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="docs/screenshots/worker-orders.png" alt="Zatwierdzanie zamówień">
+  <br>
+  <em>Rysunek 3: Panel pracownika - weryfikacja uiszczenia opłaty oraz akceptacja wydania zamówionych książek.</em>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="docs/screenshots/worker-returns.png" alt="Rozliczanie zwrotów">
+  <br>
+  <em>Rysunek 4: Obsługa zwrotów w panelu pracownika - automatyczna kalkulacja dni spóźnienia oraz naliczenie kary finansowej za nieterminowy zwrot.</em>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="docs/screenshots/admin-panel.png" alt="Panel administratora">
+  <br>
+  <em>Rysunek 5: Panel administracyjny - zarządzanie kontami użytkowników, modyfikacja danych oraz przydzielanie uprawnień w modelu RBAC.</em>
+</p>
+
 ---
 
 ### Model bazy danych
 
 Projekt wykorzystuje relacyjną strukturę danych zapewniającą pełną integralność oraz śledzenie historii modyfikacji rekordów:
+
+<p align="center">
+  <img src="docs/screenshots/database.png" alt="Schemat relacji bazy danych">
+  <br>
+  <em>Rysunek 6: Schemat relacji tabel (ERD) w bazie danych MySQL/MariaDB.</em>
+</p>
 
 ---
 
@@ -103,6 +147,12 @@ Projekt wykorzystuje relacyjną strukturę danych zapewniającą pełną integra
      ```text
      http://localhost:8080/booker/
      ```
+
+### Konta testowe do weryfikacji ról
+W bazie danych przygotowano konta demonstracyjne umożliwiające sprawdzenie uprawnień:
+* **Administrator:** login: `admin` | hasło: `admin123`
+* **Pracownik:** login: `worker` | hasło: `worker123`
+* **Użytkownik:** login: `user` | hasło: `user123`
 
 ---
 
