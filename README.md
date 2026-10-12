@@ -77,6 +77,7 @@ Projekt wykorzystuje relacyjną strukturę danych zapewniającą pełną integra
 3. **Konfiguracja źródła danych w WildFly (Datasource):**
    * Umieść plik sterownika JDBC (np. `mariadb-java-client-3.3.0.jar`) w katalogu wdrożeń `standalone/deployments/` serwera WildFly (lub zainstaluj jako moduł).
    * W pliku konfiguracyjnym serwera (`standalone/configuration/standalone.xml`) w podsystemie `urn:jboss:domain:datasources` dodaj źródło danych JNDI zgodne z konfiguracją w `persistence.xml`:
+  
      ```xml
      <datasource jta="true" jndi-name="java:/jsfcourse/bookerDS" pool-name="bookerDS" enabled="true" use-ccm="true">
          <connection-url>jdbc:mariadb://localhost:3306/booker</connection-url>
