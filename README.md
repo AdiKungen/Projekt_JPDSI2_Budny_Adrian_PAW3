@@ -59,7 +59,7 @@ Projekt wykorzystuje relacyjną strukturę danych zapewniającą pełną integra
 - **Java JDK:** wersja 17 lub 21
 - **Serwer aplikacji:** WildFly 28+ (obsługujący specyfikację Jakarta EE 10)
 - **Baza danych:** MySQL lub MariaDB (np. z pakietu XAMPP)
-- **Sterownik JDBC:** MySQL Connector/J zainstalowany jako moduł w serwerze WildFly
+- **Sterownik JDBC:** MariaDB Java Client (np. `mariadb-java-client-3.3.0.jar`)
 - **IDE:** Eclipse IDE for Enterprise Java and Web Developers
 
 ### Instrukcja
@@ -70,18 +70,19 @@ Projekt wykorzystuje relacyjną strukturę danych zapewniającą pełną integra
    ```
 
 2. **Przygotowanie bazy danych:**
-   * Uruchom moduł MySQL w panelu kontrolnym XAMPP.
+   * Uruchom moduł MySQL/MariaDB w panelu kontrolnym XAMPP.
    * Utwórz nową bazę danych o nazwie `booker`.
    * Zaimportuj schemat tabel oraz przykładowe dane (plik `booker.sql` zawierający strukturę tabel `users`, `role`, `permission`, `genre`, `book`, `rental`, `rentalitem` oraz fikcyjne pozycje katalogowe).
 
 3. **Konfiguracja źródła danych w WildFly (Datasource):**
-   * Upewnij się, że sterownik MySQL Connector/J jest zarejestrowany w katalogu modułów serwera WildFly.
-   * W pliku konfiguracyjnym serwera (`standalone/configuration/standalone.xml`) dodaj źródło danych JNDI zgodne z konfiguracją zdefiniowaną w `persistence.xml`:
-   
+   * Umieść plik sterownika JDBC (np. `mariadb-java-client-3.3.0.jar`) w katalogu wdrożeń `standalone/deployments/` serwera WildFly (lub zainstaluj jako moduł).
+   * W pliku konfiguracyjnym serwera (`standalone/configuration/standalone.xml`) w podsystemie `urn:jboss:domain:datasources` dodaj źródło danych JNDI zgodne z konfiguracją w `persistence.xml`:
+  
      ```xml
-     <datasource jndi-name="java:/jsfcourse/bookerDS" pool-name="bookerDS">
-         <connection-url>jdbc:mysql://localhost:3306/booker?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</connection-url>
-         <driver>mysql</driver>
+     <datasource jta="true" jndi-name="java:/jsfcourse/bookerDS" pool-name="bookerDS" enabled="true" use-ccm="true">
+         <connection-url>jdbc:mariadb://localhost:3306/booker</connection-url>
+         <driver-class>org.mariadb.jdbc.Driver</driver-class>
+         <driver>mariadb-java-client-3.3.0.jar</driver>
          <security>
              <user-name>root</user-name>
              <password></password>
