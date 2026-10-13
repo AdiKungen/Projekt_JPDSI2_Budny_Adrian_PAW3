@@ -9,7 +9,7 @@ Webowa aplikacja do zarządzania wypożyczalnią książek, oparta na architektu
 Poniższa animacja przedstawia pełny cykl życia zamówienia oraz przepływ pracy w systemie z perspektywy wszystkich ról użytkowników (RBAC): od rejestracji nowego konta, przez proces skompletowania i modyfikacji koszyka, aż po obsługę zamówienia i zwrotu przez pracownika oraz zarządzanie kontami przez administratora. Dodatkowo w trakcie prezentacji celowo wywoływane są typowe błędy użytkownika (np. próba logowania z błędnym hasłem czy zatwierdzenie wydania książek bez potwierdzenia zapłaty), aby zademonstrować wbudowane mechanizmy walidacji formularzy, dynamiczną aktualizację stanu pozycji w katalogu, nawigację z zachowaniem historii podstron oraz odporność aplikacji na niepoprawne akcje.
 
 <p align="center">
-  <img src="docs/gifs/demo.gif" alt="Prezentacja działania aplikacji Booker" width="650">
+  <img src="docs/gifs/demo.gif" alt="Prezentacja działania aplikacji Booker" width="1000">
 </p>
 
 ---
