@@ -1,6 +1,6 @@
 # Booker - System Wypożyczalni Książek
 
-Webowa aplikacja do zarządzania wypożyczalnią książek, oparta na architekturze korporacyjnej **Jakarta EE** (JSF + PrimeFaces, EJB, JPA/Hibernate) oraz serwerze aplikacji **WildFly**.
+Webowa aplikacja do zarządzania wypożyczalnią książek, oparta na architekturze korporacyjnej Jakarta EE (JSF + PrimeFaces, EJB, JPA/Hibernate) oraz serwerze aplikacji WildFly.
 
 ---
 
