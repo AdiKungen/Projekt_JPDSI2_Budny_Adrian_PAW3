@@ -20,7 +20,7 @@ Projekt został wykonany w ramach zajęć „Języki programowania dynamicznych 
 
 **Booker** to trójwarstwowa aplikacja zrealizowana w architekturze korporacyjnej jako projekt EAR (Enterprise Archive), składający się z modułu biznesowego EJB oraz modułu webowego WAR. System umożliwia przeglądanie katalogu książek z zachowaniem stanu widoku, dynamiczne zarządzanie koszykiem wypożyczeń, automatyczną kalkulację kosztów najmu oraz administrację zamówieniami, zwrotami i opłatami za opóźnienia.
 
-Interfejs użytkownika oparto na standardzie **Jakarta Faces** (JSF) z biblioteką komponentów **PrimeFaces**, zunifikowanym systemie szablonów Facelets oraz architekturze responsywnego ciemnego motywu. Warstwa logiki biznesowej została oddelegowana do bezstanowych komponentów EJB (Stateless Session Beans), natomiast persystencja danych jest zarządzana przez JPA (Hibernate).
+Interfejs użytkownika oparto na standardzie Jakarta Faces (JSF) z biblioteką komponentów PrimeFaces, zunifikowanym systemie szablonów Facelets oraz architekturze responsywnego ciemnego motywu. Warstwa logiki biznesowej została oddelegowana do bezstanowych komponentów EJB (Stateless Session Beans), natomiast persystencja danych jest zarządzana przez JPA (Hibernate).
 
 ---
 
