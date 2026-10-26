@@ -33,7 +33,7 @@ Interfejs użytkownika oparto na standardzie Jakarta Faces (JSF) z biblioteką k
   - `User`: przeglądanie szczegółów książek, dodawanie/usuwanie książek z koszyka oraz zamawianie koszyka.
   - `Worker`: weryfikacja płatności, zatwierdzanie wydań, przyjmowanie zwrotów oraz automatyczne naliczanie opłat karnych za nieterminowy zwrot.
   - `Admin`: zarządzanie kontami użytkowników, modyfikacja haseł, przydzielanie wielu ról równocześnie oraz bezpieczne usuwanie kont powiązanych relacjami.
-- **Unifikacja UI i okna modalne:** Globalny szablon bazowy Facelets z układem *sticky footer*, dynamicznym menu nawigacyjnym oraz oknem dialogowym prezentującym podziękowania i źródła materiałów demonstracyjnych.
+- **Unifikacja UI i okna modalne:** Globalny szablon bazowy Facelets z układem *sticky footer*, dynamicznym menu nawigacyjnym oraz oknem dialogowym (`p:dialog`) prezentującym podziękowania i źródła materiałów demonstracyjnych.
 
 ---
 
