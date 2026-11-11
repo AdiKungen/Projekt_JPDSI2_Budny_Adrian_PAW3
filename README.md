@@ -109,7 +109,7 @@ Projekt wykorzystuje relacyjną strukturę danych zapewniającą pełną integra
 - **Java JDK:** wersja 17 lub 21
 - **Serwer aplikacji:** WildFly 28+ (obsługujący specyfikację Jakarta EE 10)
 - **Baza danych:** MySQL lub MariaDB (np. z pakietu XAMPP)
-- **Sterownik JDBC:** MariaDB Java Client (np. _mariadb-java-client-3.3.0.jar_)
+- **Sterownik JDBC:** MariaDB Java Client (np. `mariadb-java-client-3.3.0.jar`)
 - **IDE:** Eclipse IDE for Enterprise Java and Web Developers
 
 ### Instrukcja
