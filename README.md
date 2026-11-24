@@ -27,13 +27,13 @@ Interfejs użytkownika oparto na standardzie Jakarta Faces (JSF) z biblioteką k
 ## Kluczowe funkcjonalności
 
 - **Katalog pozycji:** Przeglądanie oferty z wykorzystaniem leniwego ładowania (`LazyBookDataModel`), stronicowania oraz mechanizmu zapamiętywania aktywnej podstrony (`saveState`).
-- **Koszyk wypożyczeń:** Dynamiczne dodawanie książek, natychmiastowe usuwanie pozycji, konfigurowalny czas wypożyczenia (1–90 dni) z automatycznym przeliczaniem kosztu łącznego.
+- **Koszyk wypożyczeń:** Dynamiczne dodawanie książek, natychmiastowe usuwanie pozycji, konfigurowalny czas wypożyczenia (_1–90_ dni) z automatycznym przeliczaniem kosztu łącznego.
 - **Zaawansowany system kontroli dostępu (RBAC):**
   - `Gość / Użytkownik początkowy`: dostęp do strony głównej, podglądu katalogu książek oraz modułu logowania/rejestracji.
   - `User`: przeglądanie szczegółów książek, dodawanie/usuwanie książek z koszyka oraz zamawianie koszyka.
   - `Worker`: weryfikacja płatności, zatwierdzanie wydań, przyjmowanie zwrotów oraz automatyczne naliczanie opłat karnych za nieterminowy zwrot.
   - `Admin`: zarządzanie kontami użytkowników, modyfikacja haseł, przydzielanie wielu ról równocześnie oraz bezpieczne usuwanie kont powiązanych relacjami.
-- **Unifikacja UI i okna modalne:** Globalny szablon bazowy Facelets z układem *sticky footer*, dynamicznym menu nawigacyjnym oraz oknem dialogowym (`p:dialog`) prezentującym podziękowania i źródła materiałów demonstracyjnych.
+- **Unifikacja UI i okna modalne:** Globalny szablon bazowy Facelets z układem *sticky footer*, dynamicznym menu nawigacyjnym oraz oknem dialogowym (p:dialog) prezentującym podziękowania i źródła materiałów demonstracyjnych.
 
 ---
 
